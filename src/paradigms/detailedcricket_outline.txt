@@ -1,0 +1,67 @@
+Base Procedure Notes
+-------------------------------------------------------------------------------------------------
+
+skill1 = team1 skill
+skill2 = team2 skill
+gMod   = ground mod
+	
+Optional: 
+style1 = team1 style
+style2 = team2 style
+
+set base run score probabilities
+	i.e. the chance of getting a 4, 6, etc off a hit
+
+initialise 4 empty arrays:
+	b1run, b2run   -- to store number of runs by each batsman, by innings
+	b1out, b2out   -- to store the method of out for each batsman, by innings
+
+initialise batsmen strength arrays
+	b1str, b2str   -- arrays of batsmen strengths; start higher, gradually get lower
+	*** adjust these arrays based on style mods. will need to test numbers and make sure team style can't overpower ground mod
+	
+calculate toHit value based on skill ratio
+	adjust toHit for ground mod            -- batting track vs bowling track
+
+run through ball by ball for first innings
+for i < 300; i++
+	batsman strength + some implementation of rand() vs toHit
+		if hit, calculate runs off this ball
+			if not 4 or 6, % of out
+		if not hit, % of out
+			
+			if out, calculate type of out
+				set b1run value
+				set b1out value
+				move to next batsman strength value
+				
+	each ball has % of stoppage; if stopped, set stoppage flag
+	
+if stoppage, take i as number of balls allowed for second innings (?)
+	** needs clarification
+	** does this work better as a number of overs instead?
+
+calculate run rate for first innings
+calculate wickets lost
+calculate targets for second innings based on rates, wickets lost, and number of overs
+
+determine second innings approach (aggressive, patient, defensive, etc)
+this will apply a modifier to batsman strength/run probabilities (?)
+
+run through ball by ball for second innings
+for j < i; j++
+	 batsman strength + some implementation of rand() vs toHit
+		if hit, calculate runs off this ball
+			if not 4 or 6, % of out
+		if not hit, % of out
+			
+			if out, calculate type of out
+				set b2run value
+				set b2out value
+				move to next batsman strength value
+
+	each ball has % of stoppage; if stopped, set stoppage flag
+	
+if stoppage, ?????????????????
+
+calculate final totals
