@@ -4,6 +4,7 @@ Base Procedure Notes
 skill1 = team1 skill
 skill2 = team2 skill
 gMod   = ground mod
+allowDelays variable?
 	
 Optional: 
 style1 = team1 style
@@ -11,10 +12,15 @@ style2 = team2 style
 
 set base run score probabilities
 	i.e. the chance of getting a 4, 6, etc off a hit
-
-initialise 4 empty arrays:
-	b1run, b2run   -- to store number of runs by each batsman, by innings
-	b1out, b2out   -- to store the method of out for each batsman, by innings
+	
+resourcePoint function which accepts either a stop[][] or start[][] array
+	returns resourcepoints from table for [ballsleft,wktslost]
+	
+initialise stoppage array[]
+	2d array to store stop[ballsleft,wktslost] for stoppages first initiated with [n*6,10] and the other two with [0,0]
+	2d array to store strt[ballsleft,wktslost] for restarts all initiated with [0,0]
+	
+//don't think how the batsmen got out or how much they scored should matter too much
 
 initialise batsmen strength arrays
 	b1str, b2str   -- arrays of batsmen strengths; start higher, gradually get lower
@@ -22,46 +28,88 @@ initialise batsmen strength arrays
 	
 calculate toHit value based on skill ratio
 	adjust toHit for ground mod            -- batting track vs bowling track
-
-run through ball by ball for first innings
-for i < 300; i++
-	batsman strength + some implementation of rand() vs toHit
-		if hit, calculate runs off this ball
-			if not 4 or 6, % of out
-		if not hit, % of out
-			
-			if out, calculate type of out
-				set b1run value
-				set b1out value
-				move to next batsman strength value
-				
-	each ball has % of stoppage; if stopped, set stoppage flag
 	
-if stoppage, take i as number of balls allowed for second innings (?)
-	** needs clarification
-	** does this work better as a number of overs instead?
+tackle scenario one if interruption is before start
+	n set to <=50 for both teams
 
+//MATCH ENGINE
+run through ball by ball, accepts n as argument, and non-zero target T if second innings
+target = T
+if T != 0
+	determineApproach(target)
+else
+	determineApproach()
+for i < n*6; i++
+	if play is not stopped
+		batsman strength + some implementation of rand() vs toHit
+			if hit, calculate runs off this ball
+				add to team total
+				if not 4 or 6, % of out
+			if not hit, % of out
+			if legal delivery
+                    		check if out
+					wkt++
+					if wkt!=10
+                        			move to next batsman strength value
+					else break
+                        	i++
+                	if illegal delivery
+                    		add 1 to team total
+                    		continue loop
+			if team total > target when T!=0
+				break
+		each ball has % of stoppage; if stopped (only if number of stoppages < 3)
+			set stoppage flag
+			set stop[ballsleft,wktslost] at a,a
+	else if play is stopped
+            i++ //number of balls cannot be greater than 300
+            each ball has % of stoppage; if below threshold for stoppage
+	    	set strt[ballsleft,wktslost] at a,a
+		if T != 0
+			r2 = resourcePoint(stop[x,x]) - resourcePoint(start[x,x])
+			revise target T = S x r2/r1 + 1
+			determine approach again 
+		a++
+                set stoppage flag to false
+                continue loop	
+
+//DLS CALCULATION
+res = 0
+for x = 0 < 3; x++
+	res = res +  = resourcePoint(stop[x,x]) - resourcePoint(start[x,x])
+		
 calculate run rate for first innings
-calculate wickets lost
 calculate targets for second innings based on rates, wickets lost, and number of overs
 
 determine second innings approach (aggressive, patient, defensive, etc)
 this will apply a modifier to batsman strength/run probabilities (?)
 
-run through ball by ball for second innings
-for j < i; j++
-	 batsman strength + some implementation of rand() vs toHit
-		if hit, calculate runs off this ball
-			if not 4 or 6, % of out
-		if not hit, % of out
-			
-			if out, calculate type of out
-				set b2run value
-				set b2out value
-				move to next batsman strength value
-
-	each ball has % of stoppage; if stopped, set stoppage flag
-	
-if stoppage, ?????????????????
-
-calculate final totals
+//ACTUAL MATCH PROCEEDINGS
+set base run score probs
+//first innings
+n1 = tackle scenario one
+init stoppage array
+init BatStrength arrays
+calc toHit
+run match engine for n overs
+S = team 1 score, W1 = wicketsfallen, b = balls faced
+r1 = returned value of DLS calculation function
+//second innings
+n2 = tackle scenario one
+init stoppage array
+init BatStrength arrays
+calc toHit
+if n1>n2
+	get r2 = returned value of DLS calculation function
+	revise target T = S x r2/r1 + 1
+	determine approach again
+else if n1<n2
+	get r2 = returned value of DLS calculation function
+	revise target T = S + 245 x (r2 – r1)/100 + 1
+	determine approach
+run match engine for n overs
+C = team 2 score, W2 = wicketsfallen, b = balls faced
+r2 = returned value of DLS calculation function
+if r2 is not 100
+	team 2 par score = S x R2/R1 + 1
+print results
