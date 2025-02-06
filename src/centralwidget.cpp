@@ -43,7 +43,7 @@ XkorCentralWidget::XkorCentralWidget(QWidget * parent) : QWidget(parent)
 
 	QGridLayout * layout = new QGridLayout(this);
 	layout->addWidget(splitter);
-	layout->setMargin(0);
+    layout->setContentsMargins(0, 0, 0, 0);
 }
 
 void XkorCentralWidget::closeEvent(QCloseEvent * event)

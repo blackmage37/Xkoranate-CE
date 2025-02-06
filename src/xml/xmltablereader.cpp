@@ -15,7 +15,7 @@ XkorXmlTableReader::XkorXmlTableReader(QString filename)
 	{
 		if(isStartElement())
 		{
-			if(name() == "table" && attributes().value("version") == "0.3")
+            if(name().compare(QString::fromUtf8("table")) == 0 && attributes().value("version").compare(QString::fromUtf8("0.3")) == 0)
 				readFile();
 			else
 				raiseError(QObject::tr("This file is not an xkoranate version 0.3 table."));
@@ -68,23 +68,23 @@ void XkorXmlTableReader::readFile()
 			break;
 		if(isStartElement())
 		{
-			if(name() == "sortCriteria")
+            if(name().compare(QString::fromUtf8("sortCriteria")) == 0)
 				m_table.setSortCriteria(readSortCriteria());
-			else if(name() == "pointsForWin")
+            else if(name().compare(QString::fromUtf8("pointsForWin")) == 0)
 				m_table.setPointsForWin(readDouble());
-			else if(name() == "pointsForDraw")
+            else if(name().compare(QString::fromUtf8("pointsForDraw")) == 0)
 				m_table.setPointsForDraw(readDouble());
-			else if(name() == "pointsForLoss")
+            else if(name().compare(QString::fromUtf8("pointsForLoss")) == 0)
 				m_table.setPointsForLoss(readDouble());
-			else if(name() == "columnWidth")
+            else if(name().compare(QString::fromUtf8("columnWidth")) == 0)
 				m_table.setColumnWidth(readInt());
-			else if(name() == "goalName")
+            else if(name().compare(QString::fromUtf8("goalName")) == 0)
 				m_table.setGoalName(readString());
-			else if(name() == "showDraws")
+            else if(name().compare(QString::fromUtf8("showDraws")) == 0)
 				m_table.setShowDraws(readString() == "true");
-			else if(name() == "showResultsGrid")
+            else if(name().compare(QString::fromUtf8("showResultsGrid")) == 0)
 				m_table.setShowResultsGrid(readString() == "true");
-			else if(name() == "matches")
+            else if(name().compare(QString::fromUtf8("matches")) == 0)
 				readMatches();
 			else
 				readUnknownElement();
@@ -108,18 +108,18 @@ void XkorXmlTableReader::readMatches()
 			break;
 		if(isStartElement())
 		{
-			if(name() == "match")
+            if(name().compare(QString::fromUtf8("match")) == 0)
 			{
 				QString matchText = readString();
 
-				QRegExp rx("([0-9]+)[-–:]([0-9]+)"); // match scores of form Aquilla 3–1 Busby, with en dash, hyphen-minus, or colon as delimiter
-				int index = rx.indexIn(matchText);
-				if(index != -1) // if we matched
+                QRegularExpression rx("([0-9]+)[-–:]([0-9]+)"); // match scores of form Aquilla 3–1 Busby, with en dash, hyphen-minus, or colon as delimiter
+                QRegularExpressionMatch match = rx.match(matchText);
+                if (match.hasMatch()) // if we matched
 				{
-					QString homeTeam = matchText.left(index - 1);
-					QString awayTeam = matchText.right(matchText.size() - index - rx.matchedLength() - 1);
-					double homeScore = rx.cap(1).toDouble();
-					double awayScore = rx.cap(2).toDouble();
+                    QString homeTeam = matchText.left(match.capturedStart() - 1);
+                    QString awayTeam = matchText.right(matchText.size() - match.capturedStart() - match.capturedLength() - 1);
+                    double homeScore = match.captured(1).toDouble();
+                    double awayScore = match.captured(2).toDouble();
 					matchesList.push_back(XkorTableMatch(homeTeam, awayTeam, homeScore, awayScore));
 				}
 				m_matches += matchText + "\n";
@@ -143,7 +143,7 @@ std::vector<QString> XkorXmlTableReader::readSortCriteria()
 			break;
 		if(isStartElement())
 		{
-			if(name() == "sortCriterion")
+            if(name().compare(QString::fromUtf8("sortCriterion")) == 0)
 				rval.push_back(readString());
 			else
 				readUnknownElement();

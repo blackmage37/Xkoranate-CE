@@ -11,7 +11,7 @@ XkorSport::XkorSport()
 
 QString XkorSport::alphabetizedName()
 {
-	if(m_alphaName != QString::null)
+    if(!m_alphaName.isNull())
 		return m_alphaName;
 	else
 		return m_name;
@@ -98,26 +98,26 @@ double XkorSport::randWeighted(double skill, double minConstant, double midConst
 
 double XkorSport::transformNumber(double x, QString index) const
 {
-	QMap<double, double>::const_iterator a, b;
+    QMap<double, double>::iterator a, b;
 	if(m_dataPoints.value(index).size() <= 1) // we can’t deal with only one value
 	{
 		qDebug() << "m_dataPoints not big enough for index" << index << "in XkorSport::transformNumber(double, QString)";
 		return -1;
 	}
-	for(QMap<double, double>::const_iterator j = m_dataPoints.value(index).begin(); j != m_dataPoints.value(index).end(); ++j)
+    for(QMap<double, double>::iterator j = m_dataPoints.value(index).begin(); j != m_dataPoints.value(index).end(); ++j)
 	{
-		QMap<double, double>::const_iterator next = j + 1;
+        QMap<double, double>::iterator next = std::next(j, 1);
 		if(next == m_dataPoints.value(index).end())
 		{
 			// b is j; a is the point before j
-			a = j - 1;
+            a = std::prev(j,1);
 			b = j;
 			break;
 		}
 		else if(x < next.key())
 		{
 			a = j;
-			b = j + 1;
+            b = std::next(j, 1);
 			break;
 		}
 	}

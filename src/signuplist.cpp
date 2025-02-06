@@ -1,5 +1,5 @@
 #include "signuplist.h"
-
+#include "exceptions.h"
 #include <algorithm>
 #include <ctime>
 
@@ -12,7 +12,7 @@ XkorSignupList::XkorSignupList()
 
 void XkorSignupList::addAthlete(XkorAthlete a)
 {
-	if(a.id == 0)
+    if(a.id == *new QUuid('0'))
 		a.id = generateID();
 	ath.append(a);
 }
@@ -41,7 +41,8 @@ XkorAthlete XkorSignupList::getAthleteByID(const QUuid id) throw(XkorSearchFaile
 	std::string err("Failed to find athlete with ID ");
 	err = err + id.toString().toStdString();
 	err = err + " in XkorSignupList::getAthleteByID(const int)";
-	throw XkorSearchFailedException(err);
+
+    assert(false);
 }
 
 double XkorSignupList::maxRank()
@@ -57,7 +58,7 @@ double XkorSignupList::minRank()
 void XkorSignupList::setAthletes(QList<XkorAthlete> newAthletes)
 {
 	for(QList<XkorAthlete>::iterator i = newAthletes.begin(); i != newAthletes.end(); ++i)
-		if(i->id == 0)
+        if(i->id.toUInt128() == 0)
 			i->id = generateID();
 	ath = newAthletes;
 }

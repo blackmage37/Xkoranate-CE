@@ -51,7 +51,7 @@ XkorScorinateWidget::XkorScorinateWidget(QWidget * parent) : QWidget(parent)
 	layout->addWidget(textedit, 1);
 	layout->addWidget(toolBar, 0, Qt::AlignCenter);
 
-	layout->setMargin(0);
+    layout->setContentsMargins(0, 0, 0, 0);
 }
 
 XkorScorinateWidget::~XkorScorinateWidget()

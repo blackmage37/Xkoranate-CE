@@ -157,7 +157,7 @@ void XkorAbstractTreeWidget::setupLayout(QList<QAction *> actions, bool isVertic
 		layout->addWidget(toolBar, 0, 1, Qt::AlignCenter);
 	else
 		layout->addWidget(toolBar, 1, 0, Qt::AlignCenter);
-	layout->setMargin(0);
+    layout->setContentsMargins(*new QMargins());
 }
 
 void XkorAbstractTreeWidget::updateButtons()

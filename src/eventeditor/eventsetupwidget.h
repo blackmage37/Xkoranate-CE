@@ -21,11 +21,11 @@ class XkorEventSetupWidget : public XkorAbstractTreeWidget
 		QStringList availableAthleteNames;
 		QList<QUuid> availableAthletes;
 		XkorSignupList sl;
-		
-		XkorAthlete getAthleteByID(QUuid id) throw(XkorSearchFailedException);
+
+        XkorAthlete getAthleteByID(QUuid id) ;
 		
 		virtual QTreeWidgetItem * createAthlete(QTreeWidgetItem * parent);
-		virtual void initAthlete(QTreeWidgetItem * athlete) { initAthlete(athlete, 0); }
+        virtual void initAthlete(QTreeWidgetItem * athlete) { initAthlete(athlete, *new QUuid('0')); };
 		virtual void initAthlete(QTreeWidgetItem * athlete, QUuid id);
 		virtual void initItem(QTreeWidgetItem * group) { initItem(group, QString()); } // initItem is used for groups
 		virtual void initItem(QTreeWidgetItem * group, QString groupName);

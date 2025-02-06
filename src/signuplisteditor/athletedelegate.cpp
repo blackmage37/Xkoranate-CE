@@ -31,8 +31,8 @@ QWidget * XkorAthleteDelegate::createEditor(QWidget * parent, const QStyleOption
 		QLineEdit * lineEdit = new QLineEdit(parent);
 		lineEdit->setFrame(false);
 
-		QRegExp r("[1-6]{6}");
-		QRegExpValidator * validator = new QRegExpValidator(r, lineEdit);
+        QRegularExpression r("[1-6]{6}");
+        QRegularExpressionValidator * validator = new QRegularExpressionValidator(r, lineEdit);
 		lineEdit->setValidator(validator);
 
 		return lineEdit;

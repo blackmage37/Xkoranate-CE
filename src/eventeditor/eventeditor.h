@@ -3,14 +3,11 @@
 
 #include <QtWidgets>
 
-#include "abstractoptionswidget.h"
 #include "event.h"
 #include "rplist.h"
-#include "signuplist.h"
 #include "eventeditor/eventsetupwidget.h"
 #include "eventeditor/scorinatewidget.h"
 #include "eventeditor/sportselector.h"
-#include "paradigms/abstractparadigm.h"
 #include "signuplisteditor/signuplisteditor.h"
 #include "eventeditor/competitionselector.h"
 

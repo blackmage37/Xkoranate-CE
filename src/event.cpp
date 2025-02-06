@@ -2,6 +2,7 @@
 
 #include <QTextCodec>
 #include <QtDebug>
+#include "exceptions.h"
 #include "signuplist.h"
 #include "xml/xmlsportreader.h"
 
@@ -84,7 +85,7 @@ void XkorEvent::setResult(int matchday, QString result)
 			i.value() = "";
 }
 
-void XkorEvent::setSport(QString sport, QString newParadigm) throw(XkorSearchFailedException)
+void XkorEvent::setSport(QString sport, QString newParadigm)
 {
 	m_sport = sport;
 	m_paradigm = newParadigm;

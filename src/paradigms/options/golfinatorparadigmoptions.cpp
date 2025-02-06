@@ -19,7 +19,7 @@ XkorGolfinatorParadigmOptions::XkorGolfinatorParadigmOptions(QHash<QString, QVar
 
 	QGridLayout * layout = new QGridLayout(this);
 	layout->addWidget(course, 0, 0);
-	layout->setMargin(0);
+    layout->setContentsMargins(0, 0, 0, 0);
 
 	// set values
 	QList<QVariant> yardage = options.value("yardage", defaultValue("yardage")).toList();

@@ -1,5 +1,5 @@
 #include "xml/xmlindex.h"
-
+#include "exceptions.h"
 #include <QDir>
 #include <QDirIterator>
 #include <QFile>

@@ -12,7 +12,7 @@ class XkorAbstractResultComparator
 
 		virtual bool isRankable(XkorResult r)
 		{
-			if(r.score() == numeric_limits<double>::max() || r.score() == -numeric_limits<double>::max())
+            if(r.score() == std::numeric_limits<double>::max() || r.score() == -std::numeric_limits<double>::max())
 				return false;
 			else
 				return true;
@@ -21,7 +21,7 @@ class XkorAbstractResultComparator
 		QList<QVariant> readOptionList(QHash<QString, QVariant> opt, QString name)
 		{
 			QVariant val = opt.value(name);
-			if(val.type() == QVariant::List)
+            if(val.typeId() == QMetaType::QVariant)
 				return val.toList();
 			else
 				return QList<QVariant>() << val; // create a single-item list

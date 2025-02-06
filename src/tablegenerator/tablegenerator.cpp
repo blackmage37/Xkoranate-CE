@@ -54,7 +54,7 @@ XkorTableGenerator::XkorTableGenerator(QWidget * parent) : QWidget(parent)
 	pointsLayout->addWidget(pointsForDraw, 0, 2);
 	pointsLayout->addWidget(new QLabel(tr("Loss:")), 0, 3);
 	pointsLayout->addWidget(pointsForLoss, 0, 4);
-	pointsLayout->setMargin(0);
+    pointsLayout->setContentsMargins(0, 0, 0, 0);
 	pointsLayout->setColumnStretch(0, 1);
 	pointsLayout->setColumnStretch(1, 0); // don’t stretch the labels
 	pointsLayout->setColumnStretch(2, 1);
@@ -116,14 +116,14 @@ void XkorTableGenerator::generateMatches()
 	while(!ist.atEnd())
 	{
 		QString line = ist.readLine();
-		QRegExp rx("([0-9]+)[-–:]([0-9]+)"); // match scores of form Aquilla 3–1 Busby, with en dash, hyphen-minus, or colon as delimiter
-		int index = rx.indexIn(line);
-		if(index != -1) // if we matched
+        QRegularExpression rx("([0-9]+)[-–:]([0-9]+)"); // match scores of form Aquilla 3–1 Busby, with en dash, hyphen-minus, or colon as delimiter
+        QRegularExpressionMatch match = rx.match(line);
+        if (match.hasMatch()) // if we matched
 		{
-			QString homeTeam = line.left(index - 1);
-			QString awayTeam = line.right(line.size() - index - rx.matchedLength() - 1);
-			double homeScore = rx.cap(1).toDouble();
-			double awayScore = rx.cap(2).toDouble();
+            QString homeTeam = line.left(match.capturedStart() - 1);
+            QString awayTeam = line.right(line.size() - match.capturedStart() - match.capturedLength() - 1);
+            double homeScore = match.captured(1).toDouble();
+            double awayScore = match.captured(2).toDouble();
 			matchesList.push_back(XkorTableMatch(homeTeam, awayTeam, homeScore, awayScore));
 			if(!teamsList.contains(homeTeam))
 				teamsList.append(homeTeam);

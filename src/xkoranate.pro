@@ -16,6 +16,7 @@ RC_FILE += xkoranate.rc
 DESTDIR = ../
 QT += widgets
 QT += xml
+QT += core5compat
 
 # Input
 HEADERS += xml/xmlindex.h \

@@ -64,7 +64,7 @@ XkorRoundRobinCompetitionOptions::XkorRoundRobinCompetitionOptions(QHash<QString
 	pointsLayout->addWidget(ptsDraw, 0, 2);
 	pointsLayout->addWidget(new QLabel(tr("Loss:")), 0, 3);
 	pointsLayout->addWidget(ptsLoss, 0, 4);
-	pointsLayout->setMargin(0);
+    pointsLayout->setContentsMargins(0, 0, 0, 0);
 	pointsLayout->setColumnStretch(0, 1);
 	pointsLayout->setColumnStretch(1, 0); // don’t stretch the labels
 	pointsLayout->setColumnStretch(2, 1);
@@ -73,8 +73,8 @@ XkorRoundRobinCompetitionOptions::XkorRoundRobinCompetitionOptions(QHash<QString
 
 	QFormLayout * layout = new QFormLayout(this);
 	layout->addRow(tr("Number of legs:"), numberOfLegs);
-	layout->addRow(QString::null, allowDraws);
-	layout->addRow(QString::null, showResultsGrid);
+	layout->addRow(QString(), allowDraws);
+	layout->addRow(QString(), showResultsGrid);
 	layout->addRow(tr("Table sort rules:"), sc);
 	layout->addRow(tr("Points for win:"), pointsLayout);
 }

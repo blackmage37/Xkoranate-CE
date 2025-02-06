@@ -5,6 +5,7 @@
 #include <QInputDialog>
 #include <algorithm>
 #include "eventeditor/eventsetupdelegate.h"
+#include "exceptions.h"
 
 XkorEventSetupWidget::XkorEventSetupWidget()
 {
@@ -67,7 +68,7 @@ void XkorEventSetupWidget::deleteAthlete(QUuid id)
     emit listChanged();
 }
 
-XkorAthlete XkorEventSetupWidget::getAthleteByID(QUuid id) throw(XkorSearchFailedException)
+XkorAthlete XkorEventSetupWidget::getAthleteByID(QUuid id)
 {
 	XkorAthlete rval;
 	try
@@ -221,7 +222,7 @@ void XkorEventSetupWidget::setupLayout(QList<QAction *> actions)
 	layout->addWidget(label, 0, 0, Qt::AlignCenter);
 	layout->addWidget(treeWidget, 1, 0);
 	layout->addWidget(toolBar, 2, 0, Qt::AlignCenter);
-	layout->setMargin(0);
+    layout->setContentsMargins(0, 0, 0, 0);
 }
 
 void XkorEventSetupWidget::updateButtons()

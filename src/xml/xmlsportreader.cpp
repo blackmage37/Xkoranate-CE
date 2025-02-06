@@ -16,7 +16,7 @@ XkorXmlSportReader::XkorXmlSportReader(QString filename)
 	{
 		if(isStartElement())
 		{
-			if(name() == "sport" && attributes().value("version") == "0.3")
+            if(name().compare(QString::fromUtf8("sport")) == 0 && attributes().value("version").compare(QString::fromUtf8("0.3")) == 0)
 				readFile();
 			else
                 raiseError(QObject::tr("The file ‘%1’ is not an xkoranate version 0.3 sport.").arg(m_filename));
@@ -66,7 +66,7 @@ QMap<double, double> XkorXmlSportReader::readDataPoints()
 			break;
 		if(isStartElement())
 		{
-			if(name() == "dataPoint")
+            if(name().compare(QString::fromUtf8("datapoint")) == 0)
 			{
 				double pos = attributes().value("pos").toString().toDouble();
 				rval.insert(pos, readDouble());
@@ -92,24 +92,24 @@ void XkorXmlSportReader::readFile()
 			break;
 		if(isStartElement())
 		{
-			if(name() == "name")
+            if(name().compare(QString::fromUtf8("name")) == 0)
 				m_sport.setName(readString());
-			else if(name() == "alphabetizedName")
+            else if(name().compare(QString::fromUtf8("alphabetizedName")) == 0)
 				m_sport.setAlphabetizedName(readString());
-			else if(name() == "discipline")
+            else if(name().compare(QString::fromUtf8("discipline")) == 0)
 				m_sport.setDiscipline(readString());
-			else if(name() == "event")
+            else if(name().compare(QString::fromUtf8("event")) == 0)
 				m_sport.setEvent(readString());
-			else if(name() == "scorinator")
+            else if(name().compare(QString::fromUtf8("scorinator")) == 0)
 				m_sport.setScorinator(readString());
-			else if(name() == "paradigm")
+            else if(name().compare(QString::fromUtf8("paradigm")) == 0)
 				m_sport.setParadigm(readString());
-			else if(name() == "paradigmOptions")
+            else if(name().compare(QString::fromUtf8("paradigmOptions")) == 0)
 			{
 				QHash<QString, QVariant> options = readOptions();
 				m_sport.setParadigmOptions(options);
 			}
-			else if(name() == "dataPoints")
+            else if(name().compare(QString::fromUtf8("dataPoints")) == 0)
 			{
 				QString name = attributes().value("name").toString();
 				QMap<double, double> dataPoints = readDataPoints();
@@ -136,22 +136,22 @@ QList<QVariant> XkorXmlSportReader::readList()
 			break;
 		if(isStartElement())
 		{
-			if(name() == "double")
+            if(name().compare(QString::fromUtf8("double")) == 0)
 			{
 				double value = readDouble();
 				rval.append(value);
 			}
-			else if(name() == "int")
+            else if(name().compare(QString::fromUtf8("int")) == 0)
 			{
 				int value = readInt();
 				rval.append(value);
 			}
-			else if(name() == "list")
+            else if(name().compare(QString::fromUtf8("list")) == 0)
 			{
 				QList<QVariant> value = readList();
 				rval.append(QVariant(value)); // explicit conversion to QVariant needed to avoid calling append(QList<>)
 			}
-			else if(name() == "string")
+            else if(name().compare(QString::fromUtf8("string")) == 0)
 			{
 				QString value = readString();
 				rval.append(value);
@@ -175,22 +175,22 @@ QHash<QString, QVariant> XkorXmlSportReader::readOptions()
 		if(isStartElement())
 		{
 			QString type = attributes().value("type").toString();
-			if(name() == "double")
+            if(name().compare(QString::fromUtf8("double")) == 0)
 			{
 				double value = readDouble();
 				rval.insert(type, value);
 			}
-			else if(name() == "int")
+            else if(name().compare(QString::fromUtf8("int")) == 0)
 			{
 				int value = readInt();
 				rval.insert(type, value);
 			}
-			else if(name() == "list")
+            else if(name().compare(QString::fromUtf8("list")) == 0)
 			{
 				QList<QVariant> value = readList();
 				rval.insert(type, value);
 			}
-			else if(name() == "string")
+            else if(name().compare(QString::fromUtf8("string")) == 0)
 			{
 				QString value = readString();
 				rval.insert(type, value);

@@ -22,7 +22,7 @@ XkorSportSelector::XkorSportSelector(QWidget * parent) : QWidget(parent)
     label->setFont(headingFont);
     layout->addWidget(label, 0, 0, Qt::AlignCenter);
     layout->addWidget(sportView, 1, 0);
-    layout->setMargin(0);
+    layout->setContentsMargins(0, 0, 0 ,0);
 }
 
 void XkorSportSelector::setParadigmOptions(QHash<QString, QVariant> paradigmOptions)

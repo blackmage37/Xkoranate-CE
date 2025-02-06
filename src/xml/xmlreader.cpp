@@ -1,6 +1,5 @@
 #include "xmlreader.h"
 
-#include "exceptions.h"
 
 XkorXmlReader::XkorXmlReader(QString filename)
 {
@@ -19,7 +18,7 @@ XkorXmlReader::XkorXmlReader(QString filename)
 	{
 		if(isStartElement())
 		{
-			if(name() == "scorinationFile" && attributes().value("version") == "0.3")
+            if(name().compare(QString::fromUtf8("scorinationFile")) == 0 && attributes().value("version").compare(QString::fromUtf8("0.3.3")))
 				readFile();
 			else
 				raiseError(QObject::tr("This file is not an xkoranate version 0.3 file."));
@@ -75,19 +74,19 @@ void XkorXmlReader::readEvent()
 			break;
 		if(isStartElement())
 		{
-			if(name() == "sport")
+            if(name().compare(QString::fromUtf8("sport")) == 0)
 				event->setSport(readString());
-			else if(name() == "competition")
+            else if(name().compare(QString::fromUtf8("competition")) == 0)
 				event->setCompetition(readString());
-			else if(name() == "paradigmOptions")
+            else if(name().compare(QString::fromUtf8("paradigmOptions")) == 0)
 				event->setParadigmOptions(readOptions());
-			else if(name() == "competitionOptions")
+            else if(name().compare(QString::fromUtf8("competitionOptions")) == 0)
 				event->setCompetitionOptions(readOptions());
-			else if(name() == "results")
+            else if(name().compare(QString::fromUtf8("results")) == 0)
 				event->setResults(readResults());
-			else if(name() == "signupList")
+            else if(name().compare(QString::fromUtf8("signupList")) == 0)
 				event->setSignupList(readEventSignupList());
-			else if(name() == "group")
+            else if(name().compare(QString::fromUtf8("group")) == 0)
 				event->addGroup(readGroup());
 			else
 				readUnknownElement();
@@ -107,11 +106,11 @@ XkorSignupList XkorXmlReader::readEventSignupList()
 			break;
 		if(isStartElement())
 		{
-			if(name() == "maxRank")
+            if(name().compare(QString::fromUtf8("maxRank")) == 0)
 				rval.setMaxRank(readDouble());
-			else if(name() == "minRank")
+            else if(name().compare(QString::fromUtf8("minRank")) == 0)
 				rval.setMinRank(readDouble());
-			else if(name() == "signup")
+            else if(name().compare(QString::fromUtf8("signup")) == 0)
 				rval.addAthlete(readSignup());
 			else
 				readUnknownElement();
@@ -129,9 +128,9 @@ void XkorXmlReader::readFile()
 			break;
 		if(isStartElement())
 		{
-			if(name() == "rpList")
+            if(name().compare(QString::fromUtf8("rpList")) == 0)
 				readRPList();
-			else if(name() == "event")
+            else if(name().compare(QString::fromUtf8("event")) == 0)
 				readEvent();
 			else
 				readUnknownElement();
@@ -150,8 +149,8 @@ XkorGroup XkorXmlReader::readGroup()
 			break;
 		if(isStartElement())
 		{
-			if(name() == "signup")
-				rval.athletes.append(readString());
+            if(name().compare(QString::fromUtf8("signup")) == 0)
+                rval.athletes.append(QUuid::fromString(readString()));
 			else
 				readUnknownElement();
 		}
@@ -174,22 +173,22 @@ QList<QVariant> XkorXmlReader::readList()
 			break;
 		if(isStartElement())
 		{
-			if(name() == "double")
+            if(name().compare(QString::fromUtf8("double")) == 0)
 			{
 				double value = readDouble();
 				rval.append(value);
 			}
-			else if(name() == "int")
+            else if(name().compare(QString::fromUtf8("int")) == 0)
 			{
 				int value = readInt();
 				rval.append(value);
 			}
-			else if(name() == "list")
+            else if(name().compare(QString::fromUtf8("list")) == 0)
 			{
 				QList<QVariant> value = readList();
 				rval.append(QVariant(value)); // explicit conversion to QVariant needed to avoid calling append(QList<>)
 			}
-			else if(name() == "string")
+            else if(name().compare(QString::fromUtf8("string")) == 0)
 			{
 				QString value = readString();
 				rval.append(value);
@@ -214,7 +213,7 @@ QPair<QString, QHash<QString, double> > XkorXmlReader::readNation()
 			break;
 		if(isStartElement())
 		{
-			if(name() == "property")
+            if(name().compare(QString::fromUtf8("property")) == 0)
 			{
 				QString type = attributes().value("type").toString();
 				double value = readDouble();
@@ -238,22 +237,22 @@ QHash<QString, QVariant> XkorXmlReader::readOptions()
 		if(isStartElement())
 		{
 			QString type = attributes().value("type").toString();
-			if(name() == "double")
+            if(name().compare(QString::fromUtf8("double")) == 0)
 			{
 				double value = readDouble();
 				rval.insert(type, value);
 			}
-			else if(name() == "int")
+            else if(name().compare(QString::fromUtf8("int")) == 0)
 			{
 				int value = readInt();
 				rval.insert(type, value);
 			}
-			else if(name() == "list")
+            else if(name().compare(QString::fromUtf8("list")) == 0)
 			{
 				QList<QVariant> value = readList();
 				rval.insert(type, value);
 			}
-			else if(name() == "string")
+            else if(name().compare(QString::fromUtf8("string")) == 0)
 			{
 				QString value = readString();
 				rval.insert(type, value);
@@ -275,7 +274,7 @@ QHash<int, QString> XkorXmlReader::readResults()
 			break;
 		if(isStartElement())
 		{
-			if(name() == "result")
+            if(name().compare(QString::fromUtf8("result")) == 0)
 			{
 				int matchday = attributes().value("matchday").toString().toInt();
 				rval[matchday] = readString();
@@ -299,21 +298,21 @@ void XkorXmlReader::readRPList()
 			break;
 		if(isStartElement())
 		{
-			if(name() == "competitionName")
+            if(name().compare(QString::fromUtf8("competitionName")) == 0)
 				m_rpList->setCompetitionName(readString());
-			else if(name() == "maxBonus")
+            else if(name().compare(QString::fromUtf8("maxBonus")) == 0)
 				m_rpList->setMaxBonus(readDouble());
-			else if(name() == "minBonus")
+            else if(name().compare(QString::fromUtf8("minBonus")) == 0)
 				m_rpList->setMinBonus(readDouble());
-			else if(name() == "nation")
+            else if(name().compare(QString::fromUtf8("nation")) == 0)
 				m_rpList->addBonus(readNation());
-			else if(name() == "rpCalculationType")
+            else if(name().compare(QString::fromUtf8("rpCalculationType")) == 0)
 				m_rpList->setRPCalculationType(readString());
-			else if(name() == "rpEffect")
+            else if(name().compare(QString::fromUtf8("rpEffect")) == 0)
 				m_rpList->setRPEffect(readDouble());
-			else if(name() == "rpOptions")
+            else if(name().compare(QString::fromUtf8("rpOptions")) == 0)
 				m_rpList->setRPOptions(readOptions());
-			else if(name() == "useTeams")
+            else if(name().compare(QString::fromUtf8("useTeams")) == 0)
 				m_rpList->setUseTeams(readString() != "false");
 			else
 				readUnknownElement();
