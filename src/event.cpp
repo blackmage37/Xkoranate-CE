@@ -1,6 +1,5 @@
 #include "event.h"
 
-#include <QTextCodec>
 #include <QtDebug>
 #include "exceptions.h"
 #include "signuplist.h"

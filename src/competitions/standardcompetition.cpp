@@ -1,6 +1,4 @@
 #include "competitions/standardcompetition.h"
-
-#include <QTextCodec>
 #include "competitions/options/massstartcompetitionoptions.h"
 #include "paradigms/paradigmfactory.h"
 

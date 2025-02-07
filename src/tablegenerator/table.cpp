@@ -3,7 +3,6 @@
 
 #include <algorithm>
 #include <QFile>
-#include <QTextCodec>
 #include <QTextStream>
 
 void XkorTable::addMatchToData(XkorTableMatch m)

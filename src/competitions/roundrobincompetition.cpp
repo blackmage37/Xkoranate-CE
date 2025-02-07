@@ -1,9 +1,7 @@
 #include "competitions/roundrobincompetition.h"
-
-#include <QTextCodec>
-#include <algorithm>
 #include "competitions/options/roundrobincompetitionoptions.h"
 #include "paradigms/paradigmfactory.h"
+#include <algorithm>
 
 XkorAbstractOptionsWidget * XkorRoundRobinCompetition::newOptionsWidget(QHash<QString, QVariant> competitionOptions)
 {

@@ -1,6 +1,4 @@
 #include "competitions/archerycompetition.h"
-
-#include <QTextCodec>
 #include "paradigms/paradigmfactory.h"
 
 void XkorArcheryCompetition::scorinate(int matchday)
