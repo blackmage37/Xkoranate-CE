@@ -95,7 +95,7 @@ void XkorScorinateWidget::exportResults(QString filename)
 		QFile f(filename);
 		f.open(QIODevice::WriteOnly);
 		QTextStream ost(&f);
-		ost.setCodec(QTextCodec::codecForName("UTF-8"));
+        ost.setEncoding(QStringConverter::Utf8);
 		ost << textedit->document()->toPlainText();
 
 		QDir path(filename);
