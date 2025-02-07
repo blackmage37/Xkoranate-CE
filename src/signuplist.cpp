@@ -32,7 +32,7 @@ QUuid XkorSignupList::generateID()
 	return QUuid(r(), r(), r(), r(), r(), r(), r(), r(), r(), r(), r());
 }
 
-XkorAthlete XkorSignupList::getAthleteByID(const QUuid id) throw(XkorSearchFailedException)
+XkorAthlete XkorSignupList::getAthleteByID(const QUuid id) noexcept(false)
 {
 	for(QList<XkorAthlete>::iterator i = ath.begin(); i != ath.end(); ++i)
 		if(i->id == id)

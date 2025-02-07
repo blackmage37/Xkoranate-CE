@@ -19,7 +19,7 @@ void XkorXmlIndex::insert(QString filename)
         index[r.sport().alphabetizedName()] = filename;
 }
 
-void XkorXmlIndex::traverse(QString dir) throw(XkorFileNotFoundException)
+void XkorXmlIndex::traverse(QString dir) noexcept(false)
 {
 	// initialize a QDir to the desired directory
 	QDir d;
@@ -41,7 +41,7 @@ void XkorXmlIndex::traverse(QString dir) throw(XkorFileNotFoundException)
 	}
 }
 
-QString XkorXmlIndex::lookup(QString name) throw(XkorSearchFailedException)
+QString XkorXmlIndex::lookup(QString name) noexcept(false)
 {
 	map<QString, QString>::iterator i = index.find(name);
 	if(i == index.end())

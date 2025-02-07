@@ -22,7 +22,7 @@ class XkorSignupList
 		void addAthlete(XkorAthlete a);
 		double adjustRank(double rank);
 		QList<XkorAthlete> athletes();
-		XkorAthlete getAthleteByID(const QUuid id) throw(XkorSearchFailedException);
+        XkorAthlete getAthleteByID(const QUuid id) noexcept(false);
 		double maxRank();
 		double minRank();
 		void setAthletes(QList<XkorAthlete> newAthletes);
